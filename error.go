@@ -15,7 +15,7 @@ func (e *errorWithCode) Code() int {
 	return e.code
 }
 
-func newErrorWithCode(code int, message string, args ...any) *errorWithCode {
+func NewErrorWithCode(code int, message string, args ...any) *errorWithCode {
 	return &errorWithCode{
 		message: fmt.Sprintf(message, args...),
 		code:    code,

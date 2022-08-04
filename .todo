@@ -1,0 +1,13 @@
+To implement:
+    Features:
+        ✔ --to flag - accepts a language code @done(22-08-04 21:46)
+        ✔ --from flag -- accepts a language code @done(22-08-04 22:02)
+        ☐ get auth token from configuration
+        ☐ set auth token
+        ☐ support free and pro deepl API versions
+        ☐ default values
+    Client:
+        ☐ refactor and simplify client
+    finalize CLI:
+        ☐ help command
+        ☐ output

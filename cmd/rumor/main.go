@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/schweller/rumor"
+	"github.com/schweller/rumor/command"
 )
 
 func main() {
-	rumor.CreateCommand().Execute()
+	command.CreateCommand().Execute()
 }
