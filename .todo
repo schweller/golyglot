@@ -2,12 +2,15 @@ To implement:
     Features:
         ✔ --to flag - accepts a language code @done(22-08-04 21:46)
         ✔ --from flag -- accepts a language code @done(22-08-04 22:02)
-        ☐ get auth token from configuration
-        ☐ set auth token
-        ☐ support free and pro deepl API versions
+        ✔ get auth token from environment @done(22-08-04 23:50)
+        ✔ only execute if auth token is present @done(22-08-04 23:56)
         ☐ default values
+        ☐ support free and pro deepl API versions
+        ☐ set default auth token
     Client:
-        ☐ refactor and simplify client
+        ✔ refactor commands into individual module @done(22-08-04 23:37)
+        ✔ refactor service from commands @done(22-08-05 01:00)
+        ☐ refactor cli
     finalize CLI:
         ☐ help command
         ☐ output

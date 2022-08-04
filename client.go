@@ -1,31 +1,40 @@
 package rumor
 
 import (
-	"io"
+	"fmt"
 	"log"
 	"net/url"
 
 	"github.com/imroc/req/v3"
 )
 
-type Config struct {
-	Headers            map[string]string
-	TargetLanguage     string
-	SourceLanguage     string
-	Method             string
-	Url                *url.URL
-	Data               string
-	ResponseBodyOutput io.Writer
-	ControlOutput      io.Writer
+type Client struct {
+	client *req.Client
 }
 
-func execute(c *Config) *req.Response {
-	client := req.C().
-		SetCommonHeaders(c.Headers)
+func NewClient() *Client {
+	return &Client{
+		client: req.C(),
+	}
+}
 
-	response, err := client.
+type Config struct {
+	Headers        map[string]string
+	TargetLanguage string
+	SourceLanguage string
+	Method         string
+	Url            *url.URL
+	Endpoint       string
+	Data           string
+}
+
+func (r *Client) Execute(c *Config) *req.Response {
+	r.client.SetCommonHeaders(c.Headers)
+
+	finalUrl := buildUrl(c.Endpoint)
+	response, err := r.client.
 		R().
-		Send(c.Method, c.Url.String())
+		Send(c.Method, finalUrl)
 
 	if err != nil {
 		log.Fatal(err)
@@ -34,6 +43,10 @@ func execute(c *Config) *req.Response {
 	return response
 }
 
-func Execute(c *Config) *req.Response {
-	return execute(c)
+func buildUrl(r string) string {
+	finalUrl := ""
+
+	finalUrl = fmt.Sprintf("https://api-free.deepl.com/v2%s", r)
+
+	return finalUrl
 }
