@@ -10,7 +10,7 @@ To implement:
     Client:
         ✔ refactor commands into individual module @done(22-08-04 23:37)
         ✔ refactor service from commands @done(22-08-05 01:00)
-        ☐ refactor cli
+        ✔ refactor cli to have post and get members @done(22-08-05 01:09)
     finalize CLI:
         ☐ help command
         ☐ output

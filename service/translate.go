@@ -19,17 +19,15 @@ type TranslateResponse struct {
 
 func Translate(c *rumor.Config) string {
 	client := rumor.NewClient()
+	translateUrl := ""
+	translations := &TranslateResponse{}
 
-	var translateUrl string
-	var translations TranslateResponse
 	translateUrl = fmt.Sprintf("/translate?text=%s&target_lang=%s", url.QueryEscape(c.Data), c.TargetLanguage)
 	if c.SourceLanguage != "" {
 		translateUrl = fmt.Sprintf("/translate?text=%s&target_lang=%s&source_lang=%s", url.QueryEscape(c.Data), c.TargetLanguage, c.SourceLanguage)
 	}
 
-	c.Endpoint = translateUrl
-	c.Method = "POST"
-	response := client.Execute(c)
+	response := client.Post(c, translateUrl)
 
 	json.Unmarshal([]byte(response.String()), &translations)
 

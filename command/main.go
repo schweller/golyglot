@@ -1,7 +1,6 @@
 package command
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/schweller/rumor"
@@ -47,7 +46,7 @@ func CreateCommand() *cobra.Command {
 func Validator(c *rumor.Config) func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if l := len(args); l != 1 {
-			return rumor.NewErrorWithCode(2, "you must provide a single URL to be called but you provided %v", l)
+			return rumor.NewErrorWithCode(2, "you must provide the text")
 		}
 
 		c.TargetLanguage = targetLang
@@ -65,12 +64,6 @@ func InitialValidator(c *rumor.Config) func(cmd *cobra.Command, args []string) e
 		if key == "" {
 			return rumor.NewErrorWithCode(2, "You must set DEEPL_AUTH_TOKEN environment variable")
 		}
-
-		headers := map[string]string{
-			"Authorization": fmt.Sprintf("DeepL-Auth-Key %s", getAuthToken()),
-		}
-
-		c.Headers = headers
 
 		return nil
 	}
