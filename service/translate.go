@@ -22,7 +22,7 @@ func Translate(text string, tlang string) string {
 		log.Fatalf("unable to initialize client: %v", err)
 	}
 
-	resp, bar := client.Translate().GetTranslation(text, tlang)
+	resp, bar := client.Translate().PostTranslation(text, tlang)
 
 	if bar != nil {
 		log.Fatal(bar)

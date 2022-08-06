@@ -14,11 +14,10 @@ var (
 )
 
 func CreateRootCommand() *cobra.Command {
-	config := rumor.Config{}
 
 	textCommand := &cobra.Command{
 		Use:  `text`,
-		Args: Validator(&config),
+		Args: Validator(),
 		Run: func(cmd *cobra.Command, args []string) {
 			Translate(args[0], targetLang)
 		},
@@ -27,13 +26,13 @@ func CreateRootCommand() *cobra.Command {
 	usageCommand := &cobra.Command{
 		Use: `usage`,
 		Run: func(cmd *cobra.Command, args []string) {
-			Usage(&config)
+			Usage()
 		},
 	}
 
 	var rootCommand = &cobra.Command{
 		Use:               `rumor`,
-		PersistentPreRunE: InitialValidator(&config),
+		PersistentPreRunE: InitialValidator(),
 	}
 	textCommand.PersistentFlags().StringVarP(&targetLang, "to", "t", "", "which language translate to")
 	textCommand.PersistentFlags().StringVarP(&sourceLang, "from", "f", "", "which language translate from")
@@ -43,21 +42,17 @@ func CreateRootCommand() *cobra.Command {
 	return rootCommand
 }
 
-func Validator(c *rumor.Config) func(cmd *cobra.Command, args []string) error {
+func Validator() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if l := len(args); l != 1 {
 			return rumor.NewErrorWithCode(2, "you must provide the text")
 		}
 
-		c.TargetLanguage = targetLang
-		c.SourceLanguage = sourceLang
-		c.Data = args[0]
-
 		return nil
 	}
 }
 
-func InitialValidator(c *rumor.Config) func(cmd *cobra.Command, args []string) error {
+func InitialValidator() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		key := getAuthToken()
 
