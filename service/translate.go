@@ -1,11 +1,9 @@
 package service
 
 import (
-	"encoding/json"
-	"fmt"
-	"net/url"
+	"log"
 
-	"github.com/schweller/rumor"
+	"github.com/schweller/rumor/api"
 )
 
 type Translations struct {
@@ -17,19 +15,18 @@ type TranslateResponse struct {
 	Translations []Translations
 }
 
-func Translate(c *rumor.Config) string {
-	client := rumor.NewClient()
-	translateUrl := ""
-	translations := &TranslateResponse{}
-
-	translateUrl = fmt.Sprintf("/translate?text=%s&target_lang=%s", url.QueryEscape(c.Data), c.TargetLanguage)
-	if c.SourceLanguage != "" {
-		translateUrl = fmt.Sprintf("/translate?text=%s&target_lang=%s&source_lang=%s", url.QueryEscape(c.Data), c.TargetLanguage, c.SourceLanguage)
+func Translate(text string, tlang string) string {
+	config := api.DefaultConfig()
+	client, err := api.NewClient(config)
+	if err != nil {
+		log.Fatalf("unable to initialize client: %v", err)
 	}
 
-	response := client.Post(c, translateUrl)
+	resp, bar := client.Translate().GetTranslation(text, tlang)
 
-	json.Unmarshal([]byte(response.String()), &translations)
+	if bar != nil {
+		log.Fatal(bar)
+	}
 
-	return translations.Translations[0].Text
+	return resp.Translations[0].Text
 }

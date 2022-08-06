@@ -1,16 +1,25 @@
 To implement:
-    Features:
-        ✔ --to flag - accepts a language code @done(22-08-04 21:46)
-        ✔ --from flag -- accepts a language code @done(22-08-04 22:02)
-        ✔ get auth token from environment @done(22-08-04 23:50)
-        ✔ only execute if auth token is present @done(22-08-04 23:56)
+    Features/Use Cases:
+        ✔ Translate sentence @done(22-08-06 14:30)
+        ✔ Get usage @done(22-08-06 14:30)
         ☐ default values
         ☐ support free and pro deepl API versions
         ☐ set default auth token
     Client:
-        ✔ refactor commands into individual module @done(22-08-04 23:37)
-        ✔ refactor service from commands @done(22-08-05 01:00)
-        ✔ refactor cli to have post and get members @done(22-08-05 01:09)
-    finalize CLI:
-        ☐ help command
-        ☐ output
+        New:
+            ✔ Refactor API client to it's own module @done(22-08-06 16:28)
+            ☐ Create Free API Client
+            ☐ Create Pro API Client
+        Done:
+            ✔ refactor commands into individual module @done(22-08-04 23:37)
+            ✔ refactor service from commands @done(22-08-05 01:00)
+            ✔ refactor cli to have post and get members @done(22-08-05 01:09)
+    CLI:
+        New:
+            ☐ help command
+            ☐ output
+        Done:
+            ✔ --to flag - accepts a language code @done(22-08-04 21:46)
+            ✔ --from flag -- accepts a language code @done(22-08-04 22:02)
+            ✔ get auth token from environment @done(22-08-04 23:50)
+            ✔ only execute if auth token is present @done(22-08-04 23:56)

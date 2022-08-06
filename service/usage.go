@@ -1,23 +1,24 @@
 package service
 
 import (
-	"encoding/json"
+	"log"
 
-	"github.com/schweller/rumor"
+	"github.com/schweller/rumor/api"
 )
 
-type UsageResponse struct {
-	Count int `json:"character_count"`
-	Limit int `json:"character_limit"`
-}
+func GetUsage() (int, int) {
+	config := api.DefaultConfig()
+	client, err := api.NewClient(config)
 
-func ShowUsage(c *rumor.Config) (int, int) {
-	usageInfo := UsageResponse{}
+	if err != nil {
+		log.Fatalf("unable to initialize client: %v", err)
+	}
 
-	client := rumor.NewClient()
+	resp, bar := client.Usage().Get()
 
-	response := client.Get(c, "/usage")
+	if bar != nil {
+		log.Fatal(bar)
+	}
 
-	json.Unmarshal([]byte(response.String()), &usageInfo)
-	return usageInfo.Count, usageInfo.Limit
+	return resp.Count, resp.Limit
 }

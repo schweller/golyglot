@@ -13,14 +13,14 @@ var (
 	targetLang string
 )
 
-func CreateCommand() *cobra.Command {
+func CreateRootCommand() *cobra.Command {
 	config := rumor.Config{}
 
 	textCommand := &cobra.Command{
 		Use:  `text`,
 		Args: Validator(&config),
 		Run: func(cmd *cobra.Command, args []string) {
-			Translate(&config)
+			Translate(args[0], targetLang)
 		},
 	}
 

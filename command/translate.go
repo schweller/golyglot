@@ -3,7 +3,6 @@ package command
 import (
 	"fmt"
 
-	"github.com/schweller/rumor"
 	"github.com/schweller/rumor/service"
 )
 
@@ -16,7 +15,7 @@ type TranslateResponse struct {
 	Translations []Translations
 }
 
-func Translate(c *rumor.Config) {
-	text := service.Translate(c)
-	fmt.Println(text)
+func Translate(text string, tlang string) {
+	sentence := service.Translate(text, tlang)
+	fmt.Println(sentence)
 }

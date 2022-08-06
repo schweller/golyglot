@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	command.CreateCommand().Execute()
+	command.CreateRootCommand().Execute()
 	os.Exit(1)
 }
