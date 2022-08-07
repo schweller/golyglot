@@ -15,19 +15,14 @@ type Client struct {
 }
 
 type Config struct {
-	Type       string
 	HttpClient *http.Client
 }
 
 func DefaultConfig() *Config {
 	return &Config{
-		HttpClient: getCleanClient(),
-	}
-}
-
-func getCleanClient() *http.Client {
-	return &http.Client{
-		Transport: &http.Transport{},
+		HttpClient: &http.Client{
+			Transport: &http.Transport{},
+		},
 	}
 }
 
