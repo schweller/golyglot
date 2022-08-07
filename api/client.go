@@ -2,16 +2,16 @@ package api
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
-	"net/url"
+	"os"
 )
 
 type Client struct {
 	config *Config
 	host   string
+	token  string
 }
 
 type Config struct {
@@ -32,70 +32,55 @@ func getCleanClient() *http.Client {
 }
 
 func NewClient(c *Config) (*Client, error) {
-	// config := DefaultConfig()
+	defaultConfig := DefaultConfig()
+
+	if c == nil {
+		c = defaultConfig
+	}
+
 	client := &Client{
 		config: c,
 		host:   "api-free.deepl.com",
+		token:  GetAuthToken(),
 	}
 	return client, nil
 }
 
-type Request struct {
-	Method string
-	URL    *url.URL
-	Path   string
-	Host   string
-	Params url.Values
-	Body   io.Reader
-}
-
-type Response struct {
-	*http.Response
-}
-
-func NewRequest(r *Request) *http.Request {
-	headers := map[string][]string{
-		"Authorization": {fmt.Sprintf("DeepL-Auth-Key %s", GetAuthToken())},
+func (c *Client) NewRequest(method string, path string) *Request {
+	req := &Request{
+		Method: method,
+		Path:   path,
+		Host:   c.host,
+		Token:  c.token,
+		Params: make(map[string][]string),
 	}
 
-	rawQuery := ""
-
-	if r.Params != nil {
-		rawQuery = r.Params.Encode()
-	}
-
-	req := &http.Request{
-		Method: r.Method,
-		URL: &url.URL{
-			Host:     r.Host,
-			Scheme:   "https",
-			Path:     r.Path,
-			RawQuery: rawQuery,
-		},
-		Header: headers,
-	}
 	return req
 }
 
-func (c *Client) MakeRequest(r *Request) (*Response, error) {
+func (c *Client) MakeRequest(r *Request) (*http.Response, error) {
 
 	httpClient := c.config.HttpClient
 
-	req := NewRequest(r)
+	req, _ := r.NewRequestHTTP()
+	if os.Getenv("DEBUG") == "true" {
+		debug(httputil.DumpRequestOut(req, true))
+	}
 
-	debug(httputil.DumpRequestOut(req, true))
 	resp, err := httpClient.Do(req)
-
-	var result *Response
-	if resp != nil {
-		result = &Response{Response: resp}
+	if os.Getenv("DEBUG") == "true" {
+		debug(httputil.DumpResponse(resp, true))
 	}
 
 	if err != nil {
-		return result, err
+		return resp, err
 	}
 
-	return result, err
+	return resp, err
+}
+
+func (c *Client) SetClientToken(token string) {
+	c.token = token
 }
 
 func debug(data []byte, err error) {

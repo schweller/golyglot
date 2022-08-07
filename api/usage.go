@@ -24,13 +24,9 @@ func (c *Client) Usage() *UsageApi {
 }
 
 func (api *UsageApi) Get() (*UsageApiResponse, error) {
-	req := &Request{
-		Method: "GET",
-		Path:   "/v2/usage",
-		Host:   api.client.host,
-	}
+	r := api.client.NewRequest("GET", "/v2/usage")
 
-	response, err := api.client.MakeRequest(req)
+	response, err := api.client.MakeRequest(r)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -34,14 +34,10 @@ func (api *UsageApi) PostTranslation(text string, target_lang string) (*Translat
 	params.Add("text", text)
 	params.Add("target_lang", target_lang)
 
-	req := &Request{
-		Method: "POST",
-		Path:   "/v2/translate",
-		Host:   api.client.host,
-		Params: params,
-	}
+	r := api.client.NewRequest("POST", "/v2/translate")
+	r.Params = params
 
-	response, err := api.client.MakeRequest(req)
+	response, err := api.client.MakeRequest(r)
 	if err != nil {
 		log.Fatal(err)
 	}
