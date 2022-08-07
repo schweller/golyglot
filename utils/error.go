@@ -1,4 +1,4 @@
-package rumor
+package utils
 
 import "fmt"
 

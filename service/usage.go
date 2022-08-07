@@ -3,7 +3,7 @@ package service
 import (
 	"log"
 
-	"github.com/schweller/rumor/api"
+	"github.com/schweller/golyglot/api"
 )
 
 func GetUsage() (int, int) {

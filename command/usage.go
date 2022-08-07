@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 
-	"github.com/schweller/rumor/service"
+	"github.com/schweller/golyglot/service"
 )
 
 func Usage() {

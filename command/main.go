@@ -3,7 +3,7 @@ package command
 import (
 	"os"
 
-	"github.com/schweller/rumor"
+	"github.com/schweller/golyglot/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +31,7 @@ func CreateRootCommand() *cobra.Command {
 	}
 
 	var rootCommand = &cobra.Command{
-		Use:               `rumor`,
+		Use:               `deepl`,
 		PersistentPreRunE: InitialValidator(),
 	}
 	textCommand.PersistentFlags().StringVarP(&targetLang, "to", "t", "", "which language translate to")
@@ -45,7 +45,7 @@ func CreateRootCommand() *cobra.Command {
 func Validator() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if l := len(args); l != 1 {
-			return rumor.NewErrorWithCode(2, "you must provide the text")
+			return utils.NewErrorWithCode(2, "you must provide the text")
 		}
 
 		return nil
@@ -57,7 +57,7 @@ func InitialValidator() func(cmd *cobra.Command, args []string) error {
 		key := getAuthToken()
 
 		if key == "" {
-			return rumor.NewErrorWithCode(2, "You must set DEEPL_AUTH_TOKEN environment variable")
+			return utils.NewErrorWithCode(2, "You must set DEEPL_AUTH_TOKEN environment variable")
 		}
 
 		return nil

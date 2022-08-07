@@ -3,7 +3,7 @@ package service
 import (
 	"log"
 
-	"github.com/schweller/rumor/api"
+	"github.com/schweller/golyglot/api"
 )
 
 type Translations struct {
@@ -15,14 +15,14 @@ type TranslateResponse struct {
 	Translations []Translations
 }
 
-func Translate(text string, tlang string) string {
+func Translate(texts []string, tlang string) string {
 	config := api.DefaultConfig()
 	client, err := api.NewClient(config)
 	if err != nil {
 		log.Fatalf("unable to initialize client: %v", err)
 	}
 
-	resp, bar := client.Translate().PostTranslation(text, tlang)
+	resp, bar := client.Translate().PostTranslation(texts, tlang)
 
 	if bar != nil {
 		log.Fatal(bar)

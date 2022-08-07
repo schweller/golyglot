@@ -28,10 +28,13 @@ func (c *Client) Translate() *UsageApi {
 	}
 }
 
-func (api *UsageApi) PostTranslation(text string, target_lang string) (*TranslateApiResponse, error) {
+func (api *UsageApi) PostTranslation(texts []string, target_lang string) (*TranslateApiResponse, error) {
 	params := url.Values{}
 
-	params.Add("text", text)
+	for _, text := range texts {
+		params.Add("text", text)
+	}
+
 	params.Add("target_lang", target_lang)
 
 	r := api.client.NewRequest("POST", "/v2/translate")

@@ -1,4 +1,4 @@
-module github.com/schweller/rumor
+module github.com/schweller/golyglot
 
 go 1.18
 

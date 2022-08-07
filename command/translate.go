@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 
-	"github.com/schweller/rumor/service"
+	"github.com/schweller/golyglot/service"
 )
 
 type Translations struct {
@@ -16,6 +16,10 @@ type TranslateResponse struct {
 }
 
 func Translate(text string, tlang string) {
-	sentence := service.Translate(text, tlang)
+	var textList []string
+
+	textList = append(textList, text)
+
+	sentence := service.Translate(textList, tlang)
 	fmt.Println(sentence)
 }
