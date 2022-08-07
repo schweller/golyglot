@@ -5,7 +5,7 @@ go 1.18
 replace github.com/schweller/golyglot/api => ./api
 
 require (
-	github.com/schweller/golyglot/api v0.0.0-20220807135312-38537cb4aaad
+	github.com/schweller/golyglot/api v0.1.0
 	github.com/spf13/cobra v1.5.0
 )
 
