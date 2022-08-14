@@ -7,6 +7,5 @@ import (
 )
 
 func main() {
-	cli.CreateRootCommand().Execute()
-	os.Exit(1)
+	os.Exit(cli.Run(os.Args[1:]))
 }

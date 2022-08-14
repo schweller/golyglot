@@ -1,10 +1,10 @@
 package command
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/schweller/golyglot/utils"
-	"github.com/spf13/cobra"
+	"github.com/mitchellh/cli"
 )
 
 var (
@@ -13,57 +13,24 @@ var (
 	targetLang string
 )
 
-func CreateRootCommand() *cobra.Command {
-
-	textCommand := &cobra.Command{
-		Use:  `text`,
-		Args: Validator(),
-		Run: func(cmd *cobra.Command, args []string) {
-			Translate(args[0], targetLang)
-		},
-	}
-
-	usageCommand := &cobra.Command{
-		Use: `usage`,
-		Run: func(cmd *cobra.Command, args []string) {
-			Usage()
-		},
-	}
-
-	var rootCommand = &cobra.Command{
-		Use:               `deepl`,
-		PersistentPreRunE: InitialValidator(),
-	}
-	textCommand.PersistentFlags().StringVarP(&targetLang, "to", "t", "", "which language translate to")
-	textCommand.PersistentFlags().StringVarP(&sourceLang, "from", "f", "", "which language translate from")
-	rootCommand.AddCommand(textCommand)
-	rootCommand.AddCommand(usageCommand)
-
-	return rootCommand
+func Run(args []string) int {
+	return RunCustom(args)
 }
 
-func Validator() func(cmd *cobra.Command, args []string) error {
-	return func(cmd *cobra.Command, args []string) error {
-		if l := len(args); l != 1 {
-			return utils.NewErrorWithCode(2, "you must provide the text")
-		}
+func RunCustom(args []string) int {
+	commands := initCommands()
 
-		return nil
+	cli := &cli.CLI{
+		Name:     "deepl",
+		Args:     args,
+		Commands: commands,
 	}
-}
+	exitCode, err := cli.Run()
 
-func InitialValidator() func(cmd *cobra.Command, args []string) error {
-	return func(cmd *cobra.Command, args []string) error {
-		key := getAuthToken()
-
-		if key == "" {
-			return utils.NewErrorWithCode(2, "You must set DEEPL_AUTH_TOKEN environment variable")
-		}
-
-		return nil
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error executing CLI: %s\n", err.Error())
+		return 1
 	}
-}
 
-func getAuthToken() string {
-	return os.Getenv("DEEPL_AUTH_TOKEN")
+	return exitCode
 }

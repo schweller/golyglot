@@ -16,7 +16,7 @@ To implement:
             ✔ refactor cli to have post and get members @done(22-08-05 01:09)
     CLI:
         New:
-            ☐ help command
+            ✔ help command @done(22-08-14 15:45)
             ☐ output
         Done:
             ✔ --to flag - accepts a language code @done(22-08-04 21:46)
